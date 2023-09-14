@@ -19,16 +19,18 @@ This program provides a Python implementation of the kinematics calculations for
 2. Import the `MobileRobotKinematics` class from the `MobileRobotKinematics.py` module into your own Python script.
 
 3. Instantiate the `MobileRobotKinematics` class with the desired wheel configuration:
-    python 
+
+   python 
         robot = MobileRobotKinematics()
 
-4. Use the `calculate_robot_velocity` method to calculate the linear and angular velocities of the robot given wheel velocities: 
-    python 
+5. Use the `calculate_robot_velocity` method to calculate the linear and angular velocities of the robot given wheel velocities: 
+
+   python 
         robot_velocities = robot.calculate_robot_velocity([v1, v2, v3])
 
     Replace `[v1, v2, v3]` with the actual wheel velocities.
 
-5. Use the `calculate_wheel_velocities` method to calculate the required wheel velocities to achieve a desired robot velocity:
+6. Use the `calculate_wheel_velocities` method to calculate the required wheel velocities to achieve a desired robot velocity:
     python 
         wheel_velocities = robot.calculate_wheel_velocities([x_dot, y_dot, phi_dot])
 
