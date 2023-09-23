@@ -19,10 +19,11 @@ WHEEL_NAMES = ['wheel1', 'wheel2', 'wheel3'] # A list of names for the wheels
 NUM_WHEELS = len(WHEEL_NAMES)
 BETA = [0, 0, 0] # Angle between center of robot and wheel rotation axis for each wheel
 GAMMA = [0, 0, 0] # 90 - angle between wheel rotation axis and roller rotation axis for each wheel
+ALPHA = [pi/self.__num_wheels + 2*i*pi/self.__num_wheels for i in range(self.__num_wheels)] # Angle offset from x axis of each wheel around center of robot 
 
 
 class MobileRobotKinematics :
-    def __init__(self, beta=BETA, wheel_names=WHEEL_NAMES, wheel_radius=WHEEL_RADIUS, L=BASE_WIDTH):
+    def __init__(self, beta=BETA, wheel_names=WHEEL_NAMES, wheel_radius=WHEEL_RADIUS, L=BASE_WIDTH, alpha=ALPHA):
         """
         Initializes the `MobileRobotKinematics` instance.
         :param beta: The angle between center of robot and wheel rotation axis for each wheel
@@ -37,7 +38,7 @@ class MobileRobotKinematics :
         self.__L = L
         self.__wheel_names = wheel_names
         self.__num_wheels = len(self.__wheel_names)
-        self.__alpha = [pi/self.__num_wheels + 2*i*pi/self.__num_wheels for i in range(self.__num_wheels)]
+        self.__alpha = alpha
         self.__r_theta = np.eye(self.__num_wheels)
         self.__J1_list = []
         self.__C1_list = []
