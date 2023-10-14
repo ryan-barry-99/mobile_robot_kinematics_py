@@ -44,8 +44,8 @@ class MobileRobotKinematics :
         self.__C1_list = []
         self.__J2 = np.eye(self.__num_wheels) * self.__wheel_radius
         for i, _ in enumerate(self.__wheel_names):
-            self.__J1_list.append(np.array([sin(self.__alpha[i] + self.__beta[i]), -cos(self.__alpha[i] + self.__beta[i]), -self.L[i]*cos(self.__beta[i])]))
-            self.__C1_list.append(np.array([cos(self.__alpha[i] + self.__beta[i]), sin(self.__alpha[i] + self.__beta[i]), self.L[i]*sin(self.__beta[i])]))
+            self.__J1_list.append(np.array([sin(self.__alpha[i] + self.__beta[i]), -cos(self.__alpha[i] + self.__beta[i]), -self.__L[i]*cos(self.__beta[i])]))
+            self.__C1_list.append(np.array([cos(self.__alpha[i] + self.__beta[i]), sin(self.__alpha[i] + self.__beta[i]), self.__L[i]*sin(self.__beta[i])]))
         self.__J1 = np.array(self.__J1_list).T
         self.__C1 = np.array(self.__C1_list).T
         self.__zeta_dot = np.zeros(3,1)
