@@ -11,46 +11,49 @@ Date created: September 14, 2023
 '''
 
 import numpy as np
-from math import cos, sin, pi
-
-WHEEL_RADIUS = 2*0.0254 # Wheel radius in meters
-BASE_WIDTH = [8*.0254, 8*.0254, 8*.0254] # Distance from wheel to center of each wheel in meters
-WHEEL_NAMES = ['wheel1', 'wheel2', 'wheel3'] # A list of names for the wheels
-NUM_WHEELS = len(WHEEL_NAMES)
-BETA = [0, 0, 0] # Angle between center of robot and wheel rotation axis for each wheel
-GAMMA = [0, 0, 0] # 90 - angle between wheel rotation axis and roller rotation axis for each wheel
-ALPHA = [pi/self.__num_wheels + 2*i*pi/self.__num_wheels for i in range(self.__num_wheels)] # Angle offset from x axis of each wheel around center of robot 
+from math import cos, sin
+from Wheel import Wheel
 
 
 class MobileRobotKinematics :
-    def __init__(self, beta=BETA, wheel_names=WHEEL_NAMES, wheel_radius=WHEEL_RADIUS, L=BASE_WIDTH, alpha=ALPHA):
+    def __init__(self):
         """
         Initializes the `MobileRobotKinematics` instance.
-        :param beta: The angle between center of robot and wheel rotation axis for each wheel
-        :param wheel_names: The names of wheels in the robot.
-        :param wheel_radius: The radius of the wheel in meters.
-        :param L: The distance from the center of the robot to the center of the wheels in meters.
+        
+        This class is used to calculate the kinematic properties of any fixed-wheel mobile robot.
         """
 
         # Define variables
-        self.__beta = beta
-        self.__wheel_radius = wheel_radius
-        self.__L = L
-        self.__wheel_names = wheel_names
-        self.__num_wheels = len(self.__wheel_names)
-        self.__alpha = alpha
+        self.__wheels = []
+        self.__num_wheels = 0
+        self.update_jacobian()
+
+    def add_wheel(self, name, radius, L, beta=0, gamma=0, alpha=0):
+        wheel = Wheel(name, radius, L, beta, gamma, alpha)
+        self.__wheels.append(wheel)
+        self.__num_wheels += 1
+        self.update_jacobian()
+        return wheel
+    
+    def update_jacobian(self):
         self.__r_theta = np.eye(self.__num_wheels)
         self.__J1_list = []
         self.__C1_list = []
-        self.__J2 = np.eye(self.__num_wheels) * self.__wheel_radius
-        for i, _ in enumerate(self.__wheel_names):
-            self.__J1_list.append(np.array([sin(self.__alpha[i] + self.__beta[i]), -cos(self.__alpha[i] + self.__beta[i]), -self.__L[i]*cos(self.__beta[i])]))
-            self.__C1_list.append(np.array([cos(self.__alpha[i] + self.__beta[i]), sin(self.__alpha[i] + self.__beta[i]), self.__L[i]*sin(self.__beta[i])]))
+        self.__J2 = np.eye(self.__num_wheels)
+        for i, wheel in enumerate(self.__wheels):
+            self.__J2[i,i] = wheel.radius
+            alpha = wheel.alpha
+            beta = wheel.beta
+            gamma = wheel.gamma
+            L = wheel.L
+
+            self.__J1_list.append(np.array([sin(alpha + beta + gamma), -cos(alpha + beta + gamma), -L*cos(beta + gamma)]))
+            self.__C1_list.append(np.array([cos(alpha + beta + gamma), sin(alpha + beta + gamma), L*sin(beta + gamma)]))
+            
         self.__J1 = np.array(self.__J1_list).T
         self.__C1 = np.array(self.__C1_list).T
         self.__zeta_dot = np.zeros(3,1)
         self.__phi = np.zeros(range(self.__num_wheels, 1))
-
 
     def calculate_robot_velocity(self, velocities):
         self.__phi = np.array(velocities)
@@ -83,6 +86,8 @@ class MobileRobotKinematics :
                 [ wheel_n ]
         '''
         self.__phi = np.linalg.inv(self.__J2) @ self.__J1 @ self.__r_theta @ self.__zeta_dot
+        for i, wheel in enumerate(self.__wheels):
+            wheel.set_velocity(self.__phi[i])
         return self.__phi
     
 
