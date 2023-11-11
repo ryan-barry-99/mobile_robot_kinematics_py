@@ -28,14 +28,14 @@ class MobileRobot(MobileRobotKinematics):
         This is where you will define the configuration of your robot by adding wheels.
 
         Example: Definition of a Differential Drive Robot
-            self.leftWheel = self.add_wheel(name="leftWheel", radius=0.25, L=0.5, alpha=pi/2, beta=0, beta=0)
-            self.rightWheel = self.add_wheel(name="rightWheel", radius=0.25, L=0.5, alpha=3*pi/2, beta=0, beta=0)
+            Update the __init__ function as follows:
+                self.leftWheel = self.add_wheel(name="leftWheel", radius=0.25, L=0.5, alpha=pi/2, beta=0, beta=0)
+                self.rightWheel = self.add_wheel(name="rightWheel", radius=0.25, L=0.5, alpha=3*pi/2, beta=0, beta=0)
 
             Alternatively, you can define it through a class instance:
-
-            diffDrive = MobileRobot()
-            diffDrive.leftWheel = diffDrive.add_wheel(name="leftWheel", radius=0.25, L=0.5, alpha=pi/2, beta=0, beta=0)
-            diffDrive.rightWheel = diffDrive.add_wheel(name="rightWheel", radius=0.25, L=0.5, alpha=3*pi/2, beta=0, beta=0)
+                diffDrive = MobileRobot()
+                diffDrive.leftWheel = diffDrive.add_wheel(name="leftWheel", radius=0.25, L=0.5, alpha=pi/2, beta=0, beta=0)
+                diffDrive.rightWheel = diffDrive.add_wheel(name="rightWheel", radius=0.25, L=0.5, alpha=3*pi/2, beta=0, beta=0)
         """
         super().__init__()
 
