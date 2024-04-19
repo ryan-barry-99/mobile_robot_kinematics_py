@@ -13,25 +13,16 @@ Date created: September 14, 2023
 from math import cos, pi, sin
 
 import numpy as np
-import rospkg
-import sys
-import rospy
-
-rospack = rospkg.RosPack()
-package_path = rospack.get_path('constants')
-sys.path.append(package_path + '/src')
-
-from RoverConstants import ALPHA, BASE_WIDTH, BETA, GAMMA, WHEEL_NAMES, WHEEL_RADIUS
 
 
 class MobileRobotKinematics:
     def __init__(
         self,
-        beta=BETA,
-        wheel_names=WHEEL_NAMES,
-        wheel_radius=WHEEL_RADIUS,
-        L=BASE_WIDTH,
-        alpha=ALPHA
+        beta: list,
+        wheel_names: list,
+        wheel_radius: list,
+        L: list,
+        alpha: list
     ):
         """
         Initializes the `MobileRobotKinematics` instance.
