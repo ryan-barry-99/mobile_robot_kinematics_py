@@ -2,6 +2,8 @@
 
 This program provides a Python implementation of the kinematics calculations for a fixed-wheeled mobile robot. It allows you to calculate the forward and inverse kinematics for any robot configuration.
 
+View the C++ version of this repository [here](https://github.com/ryan-barry-99/mobile_robot_kinematics_cpp).
+
 ## Features
 
 - Calculates the linear and angular velocities of the robot given wheel velocities (forward kinematics).
